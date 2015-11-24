@@ -24,7 +24,7 @@ import UIKit
 
 class RAMAnimatedTabBarItem: UITabBarItem {
 
-    @IBOutlet weak var animation: RAMItemAnimation?
+    var animation: RAMItemAnimation?
     @IBInspectable var textColor = UIColor.blackColor()
 
     func playAnimation(icon: UIImageView, textLabel: UILabel){
@@ -52,10 +52,10 @@ class RAMAnimatedTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let containers = createViewContainers()
-
-        createCustomIcons(containers)
+    }
+    
+    func setupAnimatedTabBarItems() {
+        createCustomIcons(createViewContainers())
     }
 
 // MARK: create methods
@@ -80,7 +80,7 @@ class RAMAnimatedTabBarController: UITabBarController {
 
                 let icon = UIImageView(image: item.image)
                 icon.translatesAutoresizingMaskIntoConstraints = false
-                icon.tintColor = UIColor.clearColor()
+                icon.tintColor = item.textColor
 
                 // text
                 let textLabel = UILabel()
@@ -109,6 +109,8 @@ class RAMAnimatedTabBarController: UITabBarController {
 
                 if 0 == index { // selected first elemet
                     item.selectedState(icon, textLabel: textLabel)
+                } else {
+                    item.deselectAnimation(icon, textLabel: textLabel)
                 }
 
                 item.image = nil
